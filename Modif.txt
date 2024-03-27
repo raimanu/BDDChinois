@@ -1,0 +1,3 @@
+J'ai enlevé la table Mecanismes_explications car elle ne sert à rien, elle est pareille que la table Mecanismes mais avec le nom du mecanisme en moins
+
+J'ai retiré la clé étrangère id_points des tables pour pouvoir éviter le problèmes d'insertion des données
