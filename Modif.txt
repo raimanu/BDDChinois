@@ -1,3 +1,9 @@
+Raimanu : 
 J'ai enlevé la table Mecanismes_explications car elle ne sert à rien, elle est pareille que la table Mecanismes mais avec le nom du mecanisme en moins
 
 J'ai retiré la clé étrangère id_points des tables pour pouvoir éviter le problèmes d'insertion des données
+
+Nathan : 
+J'ai modifié l'insertion de données pour avoir un exemple plus concret de la base de données qu'aura le prof
+
+J'ai rajouté un fichier requete.sql oû j'ai mis des exemple de requêtes sql pour tester la abse de données
