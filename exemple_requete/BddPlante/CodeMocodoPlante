@@ -1,0 +1,39 @@
+:
+:
+:
+Nature: nature_id, Nom_francais, Nom_chinois, Pinyin_sans_accent_min, Pinyin_accent, Synonyme, Description
+Description: plant_id, _Livre_id, Description_id, Nom_plante, Description, PartieUtile, Lieu, Recolte, Histoire, Explications, Preparations
+Indications: Indication_id, Indication, Explication
+:
+
+:
+Directions: direction_id, Nom_francais, Nom_chinois, Nom_pinyin_min, Nom_pinyin_accent, Synonymes, Description
+Est_lie_a_direction, 11 Directions, 11 Plante
+Possede_nature, 11 Plante, 11 Nature
+Possede_description, 11 Description, 11 NomsPlantes
+Possede_indications, 11 Indications, 11 NomsPlantes
+:
+
+Saveur: saveur_id, Nom_francais, Nom_chinois, Pinyin_sans_accent_min, Pinyin_accent, Туре, Synonymes, Description
+Possede_saveur, 11 Plante, 11 Saveur
+Plante: plant_id, _Livre_id, Description_id, saveur_id, nature_id, Direction_id, tropisme, fonctions, Indications, Utilisee_pour, Combinaisons, Contre_indications, Posologie, Toxicite, Composants_actifs, Constituants_chimiques, Actions_pharmacologiques, Remarques, Formules_de_reference
+Est_lie_a_plante, 11 Plante, 11 NomsPlantes
+NomsPlantes: Plante_id, _Livre_id, Nom_botanique, Famille_Botanique, Nom_Latin, Nom_Scientifique, Nom_Commun, Nom_Chinois, Nom_Pinyin, Nom_Pinyin_sans_accent, Autres_Noms, Autres_varietes, Description_id, Num_Plante
+Possede_taxon, 11 Taxon, 11 NomsPlantes
+Taxon: Plante_id, Livre_id, Regne, Embranchement, Sous_embranchement, Classe, Ordre, Famille, Sous_famille, Genre, Espece
+
+:
+Livre: Livre_id, Titre, Suite_du_titre, Auteur, Autres_auteurs, ISBN, Edition, Annee
+Est_lie_a_livre, 1N Livre, 1N Plante
+Possede_photos, 11 Photos, 11 NomsPlantes
+Possede_toxicite, 11 Toxicite, 11 NomsPlantes
+Possede_pharmacologie, 1N Pharmacologie, 11 NomsPlantes
+:
+
+:
+:
+:
+Photos: Plante_id, photo_1, photo_1_FileData, photo_1_FileName, photo_1_FileType, photo_2, photo_2_FileData, photo_2_FileName, photo_2_FileType, 日, photo_brut, photo_brut_FileData, photo_brut_FileName, photo_brut_FileType, photo_poudre, photo_poudre_FileData, photo_poudre_FileName, photo_poudre_FileType
+Toxicite: plant_id, _Livre_id, _Posologie, Danger_potentiel, Precautions, Toxicite
+Pharmacologie: plant_id, _Livre_id, _Composants_actifs, Constituants_chimiques, Actions_pharmacologiques, Utilisation_Medicinales, Recherches_pharmacologiques
+:
