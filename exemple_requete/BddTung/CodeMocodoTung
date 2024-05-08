@@ -1,6 +1,6 @@
 :
 :
-Protocoles: id_protocole, point_id, nom_protocole, description_protocole
+Protocoles: id_protocole, nom_protocole, description_protocole
 :
 :
 :
@@ -10,37 +10,37 @@ Protocoles: id_protocole, point_id, nom_protocole, description_protocole
 Livre: Livre_id, Titre, Suite_du_titre, Auteur, Autres_auteurs, ISBN, Edition, Annee
 Associe_a_protocole, 1N Protocoles, 11 Points
 Familles_de_points: famille_id, nom_famille
-Remarques: id_remarque, id_point, nom_remarque, contenu_remarque
+Remarques: id_remarque, nom_remarque, contenu_remarque
 :
 :
 
-Efficacite_sur_les_meridiens: id_efficacite, id_point, id_meridien, efficacite
+Efficacite_sur_les_meridiens: id_efficacite, id_meridien, efficacite
 Applique_sur, 1N Efficacite_sur_les_meridiens, 11 Points
 Utilise, 1N Points, 1N Livre
 Fait_partie, 1N Points, 1N Familles_de_points
 Associe_a_remarque, 1N Remarques, 11 Points
 Associe_a_contre_indication, 1N Contre_indications, 11 Points
-Contre_indications: id_contre_indication, point_id, nom_contre_indication, texte_contre_indication
+Contre_indications: id_contre_indication, nom_contre_indication, texte_contre_indication
 
 :
-Indications_secondaires: id_indication_secondaire, point_id, nom_indication_secondaire, texte_indication_secondaire
+Indications_secondaires: id_indication_secondaire, nom_indication_secondaire, texte_indication_secondaire
 Associe_a_secondaire, 1N Indications_secondaires, 11 Points
 Points: id_point, _Livre_id, famille_id, nom_pinyin_accent, nom_pinyin_sans_accent, nom_chinois_simplifie, nom_chinois_traditionnel, nom_francais, nom_anglais, nom_espagnol, division, autorisation_saignee, aiguilles_absolues, aiguilles_resolution
-Appartient_a, 1N Points, 1N Division
+Appartient_a, 11 Points, 1N Division
 Division: id_division, nom_division
 :
 
-Situation_anatomique: id_situation, id_point, nom_muscles, nom_vascularisation, nom_innervation, nom_shengjing
+Situation_anatomique: id_situation, nom_muscles, nom_vascularisation, nom_innervation, nom_shengjing
 Correspond_a, 1N Situation_anatomique, 11 Points
-Est_localise, 1N Points, 11 Localisation
+Est_localise, 11 Points, 1N Localisation
 Associe_a_methode_equilibre, 1N Methode_equilibre, 11 Points
 Associe_a_point, 1N Mecanismes_explications, 11 Points
 :
 
 :
 :
-Localisation: ID_localisation, point_id, desc_anatomique, langue_localisation, image_localisation, image_ligne_de_puncture, note_1, note_2
-Methode_equilibre: id_methode_equilibre, point_id, nom_equilibrage, description_equilibrage
+Localisation: ID_localisation, desc_anatomique, langue_localisation, image_localisation, image_ligne_de_puncture, note_1, note_2
+Methode_equilibre: id_methode_equilibre, nom_equilibrage, description_equilibrage
 Associe_a, 1N Indications_primaires, 11 Points
 Mecanismes_explications: id_point, id_mecanisme
 Associe_a_mecanisme, 1N Mecanismes_explications, 11 Mecanismes
@@ -49,6 +49,6 @@ Associe_a_mecanisme, 1N Mecanismes_explications, 11 Mecanismes
 :
 :
 :
-Indications_primaires: id_indication_primaire, point_id, nom_indication_primaire, texte_indication_primaire
+Indications_primaires: id_indication_primaire, nom_indication_primaire, texte_indication_primaire
 :
 Mecanismes: id_mecanisme, nom_mecanisme
