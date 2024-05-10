@@ -6,13 +6,6 @@ CREATE TABLE Associe_a (
   id_point      TEXT NOT NULL
 );
 
-CREATE TABLE Contre_indications (
-  PRIMARY KEY (id_contre_indication),
-  id_contre_indication    TEXT NOT NULL,
-  nom_contre_indication   TEXT,
-  texte_contre_indication TEXT
-);
-
 CREATE TABLE Division (
   PRIMARY KEY (id_division),
   id_division  TEXT NOT NULL,
@@ -22,8 +15,27 @@ CREATE TABLE Division (
 CREATE TABLE Efficacite_sur_les_meridiens (
   PRIMARY KEY (id_efficacite),
   id_efficacite TEXT NOT NULL,
-  id_meridien   TEXT,
+  id_meridien  TEXT,
   efficacite    TEXT
+);
+
+CREATE TABLE Meridien (
+  PRIMARY KEY (id_meridien),
+  id_meridien  TEXT NOT NULL,
+  nom_meridien TEXT,
+  type_energie TEXT,
+  organe_associé TEXT,
+  trajet_meridien TEXT,
+  fonction_meridien TEXT
+);
+
+CREATE TABLE Technique_de_aiguilles (
+  PRIMARY KEY (id_technique),
+  id_technique TEXT NOT NULL,
+  nom_technique TEXT,
+  profondeur TEXT,
+  sens TEXT,
+  description TEXT
 );
 
 CREATE TABLE Fait_partie (
@@ -42,26 +54,26 @@ CREATE TABLE Indications (
   PRIMARY KEY (id_indication),
   id_indication    TEXT NOT NULL,
   nom_indication   TEXT,
-  texte_indication TEXT,
+  type_indication  TEXT, -- Indication ou contre indication
+  description TEXT,
   num_indication   TEXT
 );
 
-CREATE TABLE Livre (
-  PRIMARY KEY (Livre_id),
-  Livre_id       TEXT NOT NULL,
+CREATE TABLE Sources (
+  PRIMARY KEY (Source_id),
+  Source_id       TEXT NOT NULL,
   Titre          TEXT,
-  Suite_du_titre TEXT,
   Auteur         TEXT,
-  Autres_auteurs TEXT,
   ISBN           TEXT,
   Edition        TEXT,
-  Annee          TEXT
+  Annee          TEXT,
+  Lien           TEXT
 );
 
 CREATE TABLE Localisation (
   PRIMARY KEY (ID_localisation),
   ID_localisation         TEXT NOT NULL,
-  desc_anatomique         TEXT,
+  description         TEXT,
   langue_localisation     TEXT,
   image_localisation      TEXT,
   image_ligne_de_puncture TEXT,
@@ -79,7 +91,7 @@ CREATE TABLE Methode_equilibre (
   PRIMARY KEY (id_methode_equilibre),
   id_methode_equilibre    TEXT NOT NULL,
   nom_equilibrage         TEXT,
-  description_equilibrage TEXT
+  description TEXT
 );
 
 CREATE TABLE Points (
@@ -94,10 +106,9 @@ CREATE TABLE Points (
   nom_anglais              TEXT,
   nom_espagnol             TEXT,
   division                 TEXT,
-  autorisation_saignee     TEXT,
+  autorisation_saignee     Boolean,
   aiguilles_absolues       TEXT,
   aiguilles_resolution     TEXT,
-  id_contre_indication     TEXT NOT NULL,
   id_methode_equilibre     TEXT NOT NULL,
   id_mecanisme             TEXT NOT NULL,
   id_protocole             TEXT NOT NULL,
@@ -113,14 +124,14 @@ CREATE TABLE Protocoles (
   PRIMARY KEY (id_protocole),
   id_protocole          TEXT NOT NULL,
   nom_protocole         TEXT,
-  description_protocole TEXT
+  description TEXT
 );
 
 CREATE TABLE Remarques (
   PRIMARY KEY (id_remarque),
   id_remarque      TEXT NOT NULL,
   nom_remarque     TEXT,
-  contenu_remarque TEXT
+  description TEXT
 );
 
 CREATE TABLE Situation_anatomique (
@@ -133,9 +144,9 @@ CREATE TABLE Situation_anatomique (
 );
 
 CREATE TABLE Utilise (
-  PRIMARY KEY (id_point, Livre_id),
+  PRIMARY KEY (id_point, Source_id),
   id_point TEXT NOT NULL,
-  Livre_id TEXT NOT NULL
+  Source_id TEXT NOT NULL
 );
 
 ALTER TABLE Associe_a ADD FOREIGN KEY (id_point) REFERENCES Points (id_point);
@@ -152,8 +163,9 @@ ALTER TABLE Points ADD FOREIGN KEY (id_efficacite) REFERENCES Efficacite_sur_les
 ALTER TABLE Points ADD FOREIGN KEY (id_protocole) REFERENCES Protocoles (id_protocole);
 ALTER TABLE Points ADD FOREIGN KEY (id_mecanisme) REFERENCES Mecanismes (id_mecanisme);
 ALTER TABLE Points ADD FOREIGN KEY (id_methode_equilibre) REFERENCES Methode_equilibre (id_methode_equilibre);
-ALTER TABLE Points ADD FOREIGN KEY (id_contre_indication) REFERENCES Contre_indications (id_contre_indication);
 
-ALTER TABLE Utilise ADD FOREIGN KEY (Livre_id) REFERENCES Livre (Livre_id);
+ALTER TABLE Efficacite_sur_les_meridiens ADD FOREIGN KEY (id_meridien) REFERENCES Meridien (id_meridien);
+
+ALTER TABLE Utilise ADD FOREIGN KEY (Source_id) REFERENCES Livre (Source_id);
 ALTER TABLE Utilise ADD FOREIGN KEY (id_point) REFERENCES Points (id_point);
 
