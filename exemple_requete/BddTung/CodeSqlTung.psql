@@ -61,18 +61,18 @@ CREATE TABLE Indications (
 
 CREATE TABLE Sources (
   PRIMARY KEY (Source_id),
-  Source_id       TEXT NOT NULL,
-  Titre          TEXT,
-  Auteur         TEXT,
-  ISBN           TEXT,
-  Edition        TEXT,
-  Annee          TEXT,
-  Lien           TEXT
+  source_id       TEXT NOT NULL,
+  titre          TEXT,
+  auteur         TEXT,
+  isbn           TEXT,
+  edition        TEXT,
+  annee          TEXT,
+  lien           TEXT
 );
 
 CREATE TABLE Localisation (
   PRIMARY KEY (ID_localisation),
-  ID_localisation         TEXT NOT NULL,
+  id_localisation         TEXT NOT NULL,
   description         TEXT,
   langue_localisation     TEXT,
   image_localisation      TEXT,
@@ -158,7 +158,7 @@ ALTER TABLE Fait_partie ADD FOREIGN KEY (id_point) REFERENCES Points (id_point);
 ALTER TABLE Points ADD FOREIGN KEY (id_remarque) REFERENCES Remarques (id_remarque);
 ALTER TABLE Points ADD FOREIGN KEY (id_situation) REFERENCES Situation_anatomique (id_situation);
 ALTER TABLE Points ADD FOREIGN KEY (id_division) REFERENCES Division (id_division);
-ALTER TABLE Points ADD FOREIGN KEY (ID_localisation) REFERENCES Localisation (ID_localisation);
+ALTER TABLE Points ADD FOREIGN KEY (id_localisation) REFERENCES Localisation (id_localisation);
 ALTER TABLE Points ADD FOREIGN KEY (id_efficacite) REFERENCES Efficacite_sur_les_meridiens (id_efficacite);
 ALTER TABLE Points ADD FOREIGN KEY (id_protocole) REFERENCES Protocoles (id_protocole);
 ALTER TABLE Points ADD FOREIGN KEY (id_mecanisme) REFERENCES Mecanismes (id_mecanisme);
@@ -166,6 +166,6 @@ ALTER TABLE Points ADD FOREIGN KEY (id_methode_equilibre) REFERENCES Methode_equ
 
 ALTER TABLE Efficacite_sur_les_meridiens ADD FOREIGN KEY (id_meridien) REFERENCES Meridien (id_meridien);
 
-ALTER TABLE Utilise ADD FOREIGN KEY (Source_id) REFERENCES Livre (Source_id);
+ALTER TABLE Utilise ADD FOREIGN KEY (source_id) REFERENCES Livre (source_id);
 ALTER TABLE Utilise ADD FOREIGN KEY (id_point) REFERENCES Points (id_point);
 
