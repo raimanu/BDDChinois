@@ -10,9 +10,7 @@ CREATE TABLE Description (
   Recolte        TEXT,
   Histoire       TEXT,
   Explications   TEXT,
-  Preparations   TEXT,
-  Plant_id       TEXT NOT NULL,
-  UNIQUE (Plant_id)
+  Preparations   TEXT
 );
 
 CREATE TABLE Directions (
@@ -23,15 +21,13 @@ CREATE TABLE Directions (
   Nom_pinyin_min    TEXT,
   Nom_pinyin_accent TEXT,
   Synonymes         TEXT,
-  Description       TEXT,
-  Plant_id          TEXT NOT NULL,
-  UNIQUE (Plant_id)
+  Description       TEXT
 );
 
 CREATE TABLE Est_lie_a_livre (
-  PRIMARY KEY (Source_id, Plant_id),
-  Source_id TEXT NOT NULL,
-  Plant_id  TEXT NOT NULL
+  PRIMARY KEY (Plant_id, Source_id),
+  Plant_id  TEXT NOT NULL,
+  Source_id TEXT NOT NULL
 );
 
 CREATE TABLE Indications (
@@ -39,9 +35,7 @@ CREATE TABLE Indications (
   Indication_id   TEXT NOT NULL,
   Indication      TEXT,
   Type_indication TEXT,
-  Explication     TEXT,
-  Plant_id        TEXT NOT NULL,
-  UNIQUE (Plant_id)
+  Explication     TEXT
 );
 
 CREATE TABLE Nature (
@@ -79,7 +73,8 @@ CREATE TABLE Pharmacologie (
   Constituants_chimiques      TEXT,
   Actions_pharmacologiques    TEXT,
   Utilisation_Medicinales     TEXT,
-  Recherches_pharmacologiques TEXT
+  Recherches_pharmacologiques TEXT,
+  Plant_id                    TEXT NOT NULL
 );
 
 CREATE TABLE Photos (
@@ -101,16 +96,14 @@ CREATE TABLE Photos (
   photo_poudre           TEXT,
   photo_poudre_File_Data TEXT,
   photo_poudre_File_Name TEXT,
-  photo_poudre_File_Type TEXT,
-  Plant_id               TEXT NOT NULL,
-  UNIQUE (Plant_id)
+  photo_poudre_File_Type TEXT
 );
 
 CREATE TABLE Plante (
   PRIMARY KEY (Plant_id),
   Plant_id                 TEXT NOT NULL,
-  Description_id           TEXT,
-  Direction_id             TEXT,
+  Description_id_1         TEXT,
+  Direction_id_1           TEXT,
   tropisme                 TEXT,
   fonctions                TEXT,
   Indications              TEXT,
@@ -125,12 +118,23 @@ CREATE TABLE Plante (
   Remarques                TEXT,
   Formules_de_reference    TEXT,
   Nature_id                TEXT NOT NULL,
+  Description_id_2         TEXT NOT NULL,
+  Direction_id_2           TEXT NOT NULL,
+  Photo_id                 TEXT NOT NULL,
   Saveur_id                TEXT NOT NULL,
-  Pharmacologie_id         TEXT NOT NULL,
+  Taxon_id                 TEXT NOT NULL,
+  Toxicite_id              TEXT NOT NULL,
   Nom_plante_id            TEXT NOT NULL,
+  Indication_id            TEXT NOT NULL,
   UNIQUE (Nature_id),
+  UNIQUE (Description_id_2),
+  UNIQUE (Direction_id_2),
+  UNIQUE (Photo_id),
   UNIQUE (Saveur_id),
-  UNIQUE (Nom_plante_id)
+  UNIQUE (Taxon_id),
+  UNIQUE (Toxicite_id),
+  UNIQUE (Nom_plante_id),
+  UNIQUE (Indication_id)
 );
 
 CREATE TABLE Saveur (
@@ -168,9 +172,7 @@ CREATE TABLE Taxon (
   Famille            TEXT,
   Sous_famille       TEXT,
   Genre              TEXT,
-  Espece             TEXT,
-  Plant_id           TEXT NOT NULL,
-  UNIQUE (Plant_id)
+  Espece             TEXT
 );
 
 CREATE TABLE Toxicite (
@@ -179,28 +181,21 @@ CREATE TABLE Toxicite (
   Posologie        TEXT,
   Danger_potentiel TEXT,
   Precautions      TEXT,
-  Toxicite         TEXT,
-  Plant_id         TEXT NOT NULL,
-  UNIQUE (Plant_id)
+  Toxicite         TEXT
 );
 
-ALTER TABLE Description ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
-
-ALTER TABLE Directions ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
-
-ALTER TABLE Est_lie_a_livre ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
 ALTER TABLE Est_lie_a_livre ADD FOREIGN KEY (Source_id) REFERENCES Sources (Source_id);
+ALTER TABLE Est_lie_a_livre ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
 
-ALTER TABLE Indications ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
+ALTER TABLE Pharmacologie ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
 
-ALTER TABLE Photos ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
-
+ALTER TABLE Plante ADD FOREIGN KEY (Indication_id) REFERENCES Indications (Indication_id);
 ALTER TABLE Plante ADD FOREIGN KEY (Nom_plante_id) REFERENCES Noms_Plantes (Nom_plante_id);
-ALTER TABLE Plante ADD FOREIGN KEY (Pharmacologie_id) REFERENCES Pharmacologie (Pharmacologie_id);
+ALTER TABLE Plante ADD FOREIGN KEY (Toxicite_id) REFERENCES Toxicite (Toxicite_id);
+ALTER TABLE Plante ADD FOREIGN KEY (Taxon_id) REFERENCES Taxon (Taxon_id);
 ALTER TABLE Plante ADD FOREIGN KEY (Saveur_id) REFERENCES Saveur (Saveur_id);
+ALTER TABLE Plante ADD FOREIGN KEY (Photo_id) REFERENCES Photos (Photo_id);
+ALTER TABLE Plante ADD FOREIGN KEY (Direction_id_2) REFERENCES Directions (Direction_id);
+ALTER TABLE Plante ADD FOREIGN KEY (Description_id_2) REFERENCES Description (Description_id);
 ALTER TABLE Plante ADD FOREIGN KEY (Nature_id) REFERENCES Nature (Nature_id);
-
-ALTER TABLE Taxon ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
-
-ALTER TABLE Toxicite ADD FOREIGN KEY (Plant_id) REFERENCES Plante (Plant_id);
 
