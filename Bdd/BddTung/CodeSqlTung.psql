@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS Utilise CASCADE;
 CREATE TABLE Associe_a (
   PRIMARY KEY (id_indication, id_point),
   id_indication INT NOT NULL,
-  id_point      INT NOT NULL
+  id_point      TEXT NOT NULL
 );
 
 CREATE TABLE Division (
@@ -56,7 +56,7 @@ CREATE TABLE Technique_de_aiguilles (
 
 CREATE TABLE Fait_partie (
   PRIMARY KEY (id_point, famille_id),
-  id_point   INT NOT NULL,
+  id_point   TEXT NOT NULL,
   famille_id INT NOT NULL
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE Indications (
   PRIMARY KEY (id_indication),
   id_indication    SERIAL NOT NULL,
   nom_indication   TEXT,
-  type_indication  TEXT, -- Indication ou contre indication
+  type_indication  BOOLEAN, -- Indication ou contre indication
   description TEXT,
   num_indication   TEXT
 );
@@ -112,7 +112,7 @@ CREATE TABLE Methode_equilibre (
 
 CREATE TABLE Points (
   PRIMARY KEY (id_point),
-  id_point                 INT NOT NULL,
+  id_point                 TEXT NOT NULL,
   famille_id               INT,
   nom_pinyin_accent        TEXT,
   nom_pinyin_sans_accent   TEXT,
@@ -161,7 +161,7 @@ CREATE TABLE Situation_anatomique (
 
 CREATE TABLE Utilise (
   PRIMARY KEY (id_point, sources_id),
-  id_point INT NOT NULL,
+  id_point TEXT NOT NULL,
   sources_id INT NOT NULL
 );
 
