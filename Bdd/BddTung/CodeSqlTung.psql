@@ -1,65 +1,186 @@
-:
-:
-Localisation: ID_localisation, desc_anatomique, langue_localisation, image_localisation, image_ligne_de_puncture, note_1, note_2
-:
-:
-:
-:
-:
-:
-:
+DROP TABLE IF EXISTS Associe_a CASCADE;
+DROP TABLE IF EXISTS Division CASCADE;
+DROP TABLE IF EXISTS Efficacite_sur_les_meridiens CASCADE;
+DROP TABLE IF EXISTS Meridien CASCADE;
+DROP TABLE IF EXISTS Technique_de_aiguilles CASCADE;
+DROP TABLE IF EXISTS Fait_partie CASCADE;
+DROP TABLE IF EXISTS Familles_de_points CASCADE;
+DROP TABLE IF EXISTS Indications CASCADE;
+DROP TABLE IF EXISTS Sources CASCADE;
+DROP TABLE IF EXISTS Localisation CASCADE;
+DROP TABLE IF EXISTS Mecanismes CASCADE;
+DROP TABLE IF EXISTS Methode_equilibre CASCADE;
+DROP TABLE IF EXISTS Points CASCADE;
+DROP TABLE IF EXISTS Protocoles CASCADE;
+DROP TABLE IF EXISTS Remarques CASCADE;
+DROP TABLE IF EXISTS Situation_anatomique CASCADE;
+DROP TABLE IF EXISTS Utilise CASCADE;
 
-:
-Division: id_division, nom_division
-Est_localise, 11 Points, 1N Localisation
-:
-:
-:
-:
-:
-:
-:
+CREATE TABLE Associe_a (
+  PRIMARY KEY (id_indication, id_point),
+  id_indication INT NOT NULL,
+  id_point      TEXT NOT NULL
+);
 
-Protocoles: id_protocole, nom_protocole, description_protocole
-Associe_a_protocole, 1N Protocoles, 11 Points
-Appartient_a, 11 Points, 1N Division
-Associe_a_mecanisme, 11 Points, 11 Mecanismes
-Mecanismes: id_mecanisme, nom_mecanisme
-:
-:
-:
-:
-:
+CREATE TABLE Division (
+  PRIMARY KEY (id_division),
+  id_division  SERIAL NOT NULL,
+  nom_division TEXT
+);
 
-:
-Situation_anatomique: id_situation, nom_muscles, nom_vascularisation, nom_innervation, nom_shengjing
-Correspond_a, 1N Situation_anatomique, 11 Points
-Points: id_point, famille_id, nom_pinyin_accent, nom_pinyin_sans_accent, nom_chinois_simplifie, nom_chinois_traditionnel, nom_francais, nom_anglais, nom_espagnol, division, autorisation_saignee, aiguilles_absolues, aiguilles_resolution
-Fait_partie, 1N Points, 1N Familles_de_points
-Familles_de_points: famille_id, nom_famille
-:
-:
-:
-:
+CREATE TABLE Efficacite_sur_les_meridiens (
+  PRIMARY KEY (id_efficacite),
+  id_efficacite SERIAL NOT NULL,
+  id_meridien  INT,
+  efficacite    TEXT
+);
 
-:
-Livre: Livre_id, Titre, Suite_du_titre, Auteur, Autres_auteurs, ISBN, Edition, Annee
-Utilise, 1N Points, 1N Livre
-Associe_a, 1N Indications, 1N Points
-Associe_a_methode_equilibre, 1N Methode_equilibre, 11 Points
-Methode_equilibre: id_methode_equilibre, nom_equilibrage, description_equilibrage
-:
-:
-:
-Technique_de_aiguilles:id_technique, nom_technique, profondeur, sens, description
+CREATE TABLE Meridien (
+  PRIMARY KEY (id_meridien),
+  id_meridien  SERIAL NOT NULL,
+  nom_meridien TEXT,
+  type_energie TEXT,
+  organe_associé TEXT,
+  trajet_meridien TEXT,
+  fonction_meridien TEXT
+);
 
-:
-Remarques: id_remarque, nom_remarque, contenu_remarque
-Associe_a_remarque, 1N Remarques, 11 Points
-Indications: id_indication, nom_indication, texte_indication, num_indication, type_indication
-Applique_sur, 1N Efficacite_sur_les_meridiens, 11 Points
-Efficacite_sur_les_meridiens: id_efficacite, id_meridien, efficacite
-Efficace, 1N Efficacite_sur_les_meridiens, 1N Meridien
-Meridien: id_meridien, nom_meridien, type_energie, organe_associé, trajet_meridien, fonction_meridien
-:
-:
+CREATE TABLE Technique_de_aiguilles (
+  PRIMARY KEY (id_technique),
+  id_technique SERIAL NOT NULL,
+  nom_technique TEXT,
+  profondeur TEXT,
+  sens TEXT,
+  description TEXT
+);
+
+CREATE TABLE Fait_partie (
+  PRIMARY KEY (id_point, famille_id),
+  id_point   TEXT NOT NULL,
+  famille_id INT NOT NULL
+);
+
+CREATE TABLE Familles_de_points (
+  PRIMARY KEY (famille_id),
+  famille_id  SERIAL NOT NULL,
+  nom_famille TEXT
+);
+
+CREATE TABLE Indications (
+  PRIMARY KEY (id_indication),
+  id_indication    SERIAL NOT NULL,
+  nom_indication   TEXT,
+  type_indication  BOOLEAN, -- Indication ou contre indication
+  description TEXT,
+  num_indication   TEXT
+);
+
+CREATE TABLE Sources (
+  PRIMARY KEY (sources_id),
+  sources_id       SERIAL NOT NULL,
+  titre          TEXT,
+  auteur         TEXT,
+  isbn           INT,
+  edition        TEXT,
+  annee          TEXT,
+  lien           TEXT
+);
+
+CREATE TABLE Localisation (
+  PRIMARY KEY (id_localisation),
+  id_localisation         SERIAL NOT NULL,
+  description         TEXT,
+  langue_localisation     TEXT,
+  image_localisation      TEXT,
+  image_ligne_de_puncture TEXT,
+  note1                   TEXT,
+  note2                   TEXT
+);
+
+CREATE TABLE Mecanismes (
+  PRIMARY KEY (id_mecanisme),
+  id_mecanisme  SERIAL NOT NULL,
+  nom_mecanisme TEXT
+);
+
+CREATE TABLE Methode_equilibre (
+  PRIMARY KEY (id_methode_equilibre),
+  id_methode_equilibre    SERIAL NOT NULL,
+  nom_equilibrage         TEXT,
+  description TEXT
+);
+
+CREATE TABLE Points (
+  PRIMARY KEY (id_point),
+  id_point                 TEXT NOT NULL,
+  famille_id               INT,
+  nom_pinyin_accent        TEXT,
+  nom_pinyin_sans_accent   TEXT,
+  nom_chinois_simplifie    TEXT,
+  nom_chinois_traditionnel TEXT,
+  nom_francais             TEXT,
+  nom_anglais              TEXT,
+  nom_espagnol             TEXT,
+  division                 TEXT,
+  autorisation_saignee     Boolean,
+  aiguilles_absolues       TEXT,
+  aiguilles_resolution     TEXT,
+  id_methode_equilibre     INT NOT NULL,
+  id_mecanisme             INT NOT NULL,
+  id_protocole             INT NOT NULL,
+  id_efficacite            INT NOT NULL,
+  id_localisation          INT NOT NULL,
+  id_division              INT NOT NULL,
+  id_situation             INT NOT NULL,
+  id_remarque              INT NOT NULL,
+  UNIQUE (id_mecanisme)
+);
+
+CREATE TABLE Protocoles (
+  PRIMARY KEY (id_protocole),
+  id_protocole          SERIAL NOT NULL,
+  nom_protocole         TEXT,
+  description TEXT
+);
+
+CREATE TABLE Remarques (
+  PRIMARY KEY (id_remarque),
+  id_remarque      SERIAL NOT NULL,
+  nom_remarque     TEXT,
+  description TEXT
+);
+
+CREATE TABLE Situation_anatomique (
+  PRIMARY KEY (id_situation),
+  id_situation        SERIAL NOT NULL,
+  nom_muscles         TEXT,
+  nom_vascularisation TEXT,
+  nom_innervation     TEXT,
+  nom_shengjing       TEXT
+);
+
+CREATE TABLE Utilise (
+  PRIMARY KEY (id_point, sources_id),
+  id_point TEXT NOT NULL,
+  sources_id INT NOT NULL
+);
+
+ALTER TABLE Associe_a ADD FOREIGN KEY (id_point) REFERENCES Points (id_point);
+ALTER TABLE Associe_a ADD FOREIGN KEY (id_indication) REFERENCES Indications (id_indication);
+
+ALTER TABLE Fait_partie ADD FOREIGN KEY (famille_id) REFERENCES Familles_de_points (famille_id);
+ALTER TABLE Fait_partie ADD FOREIGN KEY (id_point) REFERENCES Points (id_point);
+
+ALTER TABLE Points ADD FOREIGN KEY (id_remarque) REFERENCES Remarques (id_remarque);
+ALTER TABLE Points ADD FOREIGN KEY (id_situation) REFERENCES Situation_anatomique (id_situation);
+ALTER TABLE Points ADD FOREIGN KEY (id_division) REFERENCES Division (id_division);
+ALTER TABLE Points ADD FOREIGN KEY (id_localisation) REFERENCES Localisation (id_localisation);
+ALTER TABLE Points ADD FOREIGN KEY (id_efficacite) REFERENCES Efficacite_sur_les_meridiens (id_efficacite);
+ALTER TABLE Points ADD FOREIGN KEY (id_protocole) REFERENCES Protocoles (id_protocole);
+ALTER TABLE Points ADD FOREIGN KEY (id_mecanisme) REFERENCES Mecanismes (id_mecanisme);
+ALTER TABLE Points ADD FOREIGN KEY (id_methode_equilibre) REFERENCES Methode_equilibre (id_methode_equilibre);
+
+ALTER TABLE Efficacite_sur_les_meridiens ADD FOREIGN KEY (id_meridien) REFERENCES Meridien (id_meridien);
+
+ALTER TABLE Utilise ADD FOREIGN KEY (sources_id) REFERENCES sources (sources_id);
+ALTER TABLE Utilise ADD FOREIGN KEY (id_point) REFERENCES Points (id_point);
