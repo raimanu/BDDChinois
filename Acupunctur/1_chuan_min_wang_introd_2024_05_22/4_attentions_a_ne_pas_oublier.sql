@@ -1,0 +1,1 @@
+select * from indication where id_indication not in (select id_indication from Points__indication) --doit ne rien retourner
